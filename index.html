@@ -1445,34 +1445,38 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
         // ===== NETFLIX SOUND ON CLICK =====
-        let loadingStarted = false;
-        const loadingLogo = document.getElementById('loadingLogo');
-        const clickInstruction = document.getElementById('clickInstruction');
-        const loadingBar = document.getElementById('loadingBar');
+        // NETFLIX SOUND ON CLICK
+let loadingStarted = false;
+const loadingLogo = document.getElementById('loadingLogo');
+const clickInstruction = document.getElementById('clickInstruction');
+const loadingBar = document.getElementById('loadingBar');
 
-        loadingLogo.addEventListener('click', () => {
-            if (loadingStarted) return;
-            loadingStarted = true;
+loadingLogo.addEventListener('click', () => {
+    if (loadingStarted) return;
+    loadingStarted = true;
 
-            // Play Netflix sound
-            const netflixSound = new Audio('./netflix-sound.mp3');
-            netflixSound.volume = 0.8;
-            netflixSound.play().catch(error => {
-                console.log('Audio playback error:', error);
-            });
+    // Play Netflix sound
+    const netflixSound = new Audio('./netflix-sound.mp3');
+    netflixSound.volume = 0.8;
+    netflixSound.play().catch(error => {
+        console.log('Audio playback error:', error);
+    });
 
-            // Hide click instruction
-            clickInstruction.style.display = 'none';
+    // Hide click instruction
+    clickInstruction.style.display = 'none';
 
-            // Show loading bar and start animation
-            loadingBar.classList.add('active');
-            loadingLogo.style.pointerEvents = 'none';
+    // Show loading bar and start animation
+    loadingBar.classList.add('active');
+    loadingLogo.style.pointerEvents = 'none';
 
-            // Hide loading screen after 2 seconds
-            setTimeout(() => {
-                document.getElementById('loadingScreen').classList.add('hidden');
-            }, 2000);
-        });
+    // Hide loading screen and initialize Three.js
+    setTimeout(() => {
+        document.getElementById('loadingScreen').classList.add('hidden');
+        // Initialize Three.js immediately after hiding loading screen
+        initThreeJS();
+    }, 2000);
+});
+
         // ===== END NETFLIX SOUND CODE =====
 
         // ===== THREE.JS 3D BACKGROUND =====
@@ -1598,22 +1602,7 @@
         }
 
         // Initialize Three.js when page loads
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                if (loadingStarted) {
-                    initThreeJS();
-                }
-            }, 2100);
-        });
-
-        // Initialize immediately if page already loaded
-        if (document.readyState === 'complete') {
-            setTimeout(() => {
-                if (loadingStarted) {
-                    initThreeJS();
-                }
-            }, 2100);
-        }
+        
 
         // Back to Top Button
         const backToTopBtn = document.getElementById('backToTop');
