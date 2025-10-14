@@ -879,10 +879,10 @@
             <canvas id="particleCanvas"></canvas>
         </div>
         <div class="hero-content">
-            <div class="availability-badge">
+            <a href="https://linkedin.com/in/atpp" target="_blank" class="availability-badge" style="text-decoration: none; cursor: pointer;">
                 <div class="availability-dot"></div>
                 Open to Opportunities
-            </div>
+            </a>
             <div class="hero-subtitle">Data Scientist & ML Engineer</div>
             <h1>Transforming Data into Intelligent Solutions</h1>
             <p class="hero-description">MS Statistics student at Ohio State University specializing in AI/ML pipelines, cloud infrastructure, and scalable data solutions. Passionate about building end-to-end systems that drive real-world impact.</p>
@@ -1363,51 +1363,35 @@
             }
         });
 
-        // Resume Download
+        // Resume Download - Updated to download actual PDF
         document.getElementById('resumeDownload').addEventListener('click', (e) => {
             e.preventDefault();
             
-            // Create resume content
-            const resumeContent = `
-AAYUSH PANCHAL
-Columbus, OH | 614-353-8167 | aayushpanchal1111@gmail.com | linkedin.com/in/atpp
-
-EDUCATION
-Master of Science in Statistics | The Ohio State University | Expected 2026
-Bachelor of Science in Computer Science & Mathematics | UMass Amherst | 2022
-
-EXPERIENCE
-Data Science Intern | OhioHealth | June 2025 – August 2025
-• Designed and deployed end-to-end AI pipeline with Wav2Vec2 and Llama-70B for 50,000+ audio files
-• Automated ETL workflows using Azure Databricks Jobs API
-• Reduced manual review time by 75% and compute costs by 40%
-
-Data Engineer | MollisSoft | May 2023 – February 2024
-• Built scalable ETL pipelines improving data freshness by 40%
-• Optimized MySQL schemas reducing dashboard load times by 50%
-• Implemented AWS monitoring reducing downtime by 30%
-
-Data Analyst Intern | Wallfort Inc. | May 2022 – August 2022
-• Applied statistical models in R for loan repayment probability
-• Designed AI-enhanced Tableau dashboards
-• Improved customer retention by 15% through predictive models
-
-TECHNICAL SKILLS
-Languages: Python, SQL, R, Java, C++, Scala, JavaScript
-ML/AI: TensorFlow, PyTorch, PySpark, LangChain, scikit-learn, XGBoost
-Cloud/Tools: AWS, Azure, Docker, Kubernetes, MLflow, Databricks, Tableau
-            `;
+            // Link to your PDF file on GitHub
+            // Make sure the filename matches exactly what you uploaded
+            const link = document.createElement('a');
+            link.href = './Aayush_Panchal_Resume.pdf'; // Using ./ for same directory
+            link.download = 'Aayush_Panchal_Resume.pdf';
+            link.target = '_blank'; // Opens in new tab if download doesn't work
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
             
-            // Create blob and download
-            const blob = new Blob([resumeContent], { type: 'text/plain' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'Aayush_Panchal_Resume.txt';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
+            /* 
+            Method 2: If you want to embed the PDF as base64 (no separate file needed)
+            Steps to use this method:
+            1. Convert your PDF to base64: https://base64.guru/converter/encode/pdf
+            2. Replace 'YOUR_BASE64_PDF_STRING_HERE' below with the full base64 string
+            3. Uncomment this code and comment out Method 1 above
+            
+            const base64PDF = 'YOUR_BASE64_PDF_STRING_HERE';
+            const link = document.createElement('a');
+            link.href = 'data:application/pdf;base64,' + base64PDF;
+            link.download = 'Aayush_Panchal_Resume.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            */
             
             // Show feedback
             const originalText = e.target.textContent;
