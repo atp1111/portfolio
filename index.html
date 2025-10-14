@@ -42,10 +42,6 @@
             text-shadow: 0 0 20px rgba(229, 9, 20, 0.8);
         }
 
-        .loading-logo.clickable {
-            animation: pulse-glow 1s ease-in-out infinite;
-        }
-
         .click-instruction {
             color: var(--light-gray);
             font-size: 16px;
@@ -81,11 +77,6 @@
             50% { opacity: 0.7; transform: scale(1.05); }
         }
 
-        @keyframes pulse-glow {
-            0%, 100% { opacity: 1; transform: scale(1); text-shadow: 0 0 10px rgba(229, 9, 20, 0.5); }
-            50% { opacity: 1; transform: scale(1.08); text-shadow: 0 0 30px rgba(229, 9, 20, 0.8); }
-        }
-
         @keyframes loadProgress {
             0% { width: 0%; }
             100% { width: 100%; }
@@ -94,6 +85,17 @@
         @keyframes fadeInOut {
             0%, 100% { opacity: 0.3; }
             50% { opacity: 1; }
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateX(-50%) translateY(0);
+                opacity: 1;
+            }
+            50% {
+                transform: translateX(-50%) translateY(10px);
+                opacity: 0.5;
+            }
         }
     </style>
     <style>
@@ -304,6 +306,35 @@
             border-color: rgba(255,255,255,0.5);
         }
 
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            animation: bounce 2s infinite;
+            z-index: 10;
+        }
+
+        .scroll-indicator p {
+            font-size: 12px;
+            color: var(--light-gray);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .scroll-indicator svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--primary);
+            stroke-width: 2;
+            fill: none;
+        }
+
         /* Section Styles */
         section {
             padding: 80px 4%;
@@ -354,6 +385,11 @@
             justify-content: center;
             font-size: 120px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .about-image:hover {
+            transform: scale(1.05);
         }
 
         .about-text {
@@ -378,6 +414,12 @@
             padding: 20px;
             background: var(--card-bg);
             border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(229, 9, 20, 0.2);
         }
 
         .stat-number {
@@ -404,12 +446,17 @@
             background: var(--card-bg);
             padding: 30px;
             border-radius: 12px;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.3s;
+            border: 1px solid rgba(229, 9, 20, 0);
         }
 
         .skill-category:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(229, 9, 20, 0.2);
+            border-color: rgba(229, 9, 20, 0.3);
+            background: rgba(26, 26, 26, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         .skill-icon {
@@ -435,6 +482,13 @@
             border-radius: 20px;
             font-size: 13px;
             color: var(--light-gray);
+            transition: all 0.3s;
+            border: 1px solid rgba(229, 9, 20, 0);
+        }
+
+        .skill-tag:hover {
+            background: rgba(229, 9, 20, 0.2);
+            border-color: var(--primary);
         }
 
         /* Projects Section */
@@ -448,7 +502,7 @@
             background: var(--card-bg);
             border-radius: 12px;
             overflow: hidden;
-            transition: all 0.4s ease;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             cursor: pointer;
             position: relative;
             border: 1px solid rgba(229, 9, 20, 0);
@@ -458,6 +512,9 @@
             transform: translateY(-15px) scale(1.02);
             box-shadow: 0 30px 60px rgba(229, 9, 20, 0.3);
             border-color: rgba(229, 9, 20, 0.5);
+            background: rgba(26, 26, 26, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
 
         .project-image {
@@ -475,18 +532,6 @@
 
         .project-card:hover .project-image {
             transform: scale(1.1) rotate(2deg);
-        }
-
-        .project-image {
-            width: 100%;
-            height: 250px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 60px;
-            position: relative;
-            overflow: hidden;
         }
 
         .project-card:nth-child(2) .project-image {
@@ -540,6 +585,11 @@
             border-radius: 4px;
             font-size: 12px;
             color: var(--light-gray);
+            transition: all 0.3s;
+        }
+
+        .tech-tag:hover {
+            background: rgba(229, 9, 20, 0.2);
         }
 
         /* Experience Timeline */
@@ -556,7 +606,7 @@
             top: 0;
             bottom: 0;
             width: 2px;
-            background: var(--card-bg);
+            background: linear-gradient(180deg, var(--primary) 0%, var(--card-bg) 100%);
         }
 
         .timeline-item {
@@ -566,11 +616,16 @@
             background: var(--card-bg);
             border-radius: 12px;
             transition: all 0.3s;
+            border: 1px solid rgba(229, 9, 20, 0);
         }
 
         .timeline-item:hover {
             transform: translateX(10px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 30px rgba(229, 9, 20, 0.2);
+            border-color: rgba(229, 9, 20, 0.3);
+            background: rgba(26, 26, 26, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         .timeline-item::before {
@@ -583,6 +638,12 @@
             background: var(--primary);
             border-radius: 50%;
             border: 3px solid var(--dark);
+            transition: all 0.3s;
+        }
+
+        .timeline-item:hover::before {
+            transform: scale(1.3);
+            box-shadow: 0 0 15px rgba(229, 9, 20, 0.6);
         }
 
         .timeline-date {
@@ -628,9 +689,8 @@
             background: var(--card-bg);
             padding: 40px;
             border-radius: 12px;
+            border: 1px solid rgba(229, 9, 20, 0.2);
         }
-
-        .contact-form-container h3 {
             margin-bottom: 25px;
             font-size: 24px;
         }
@@ -665,6 +725,7 @@
             outline: none;
             border-color: var(--primary);
             background: rgba(255,255,255,0.08);
+            box-shadow: 0 0 10px rgba(229, 9, 20, 0.2);
         }
 
         .form-group textarea {
@@ -688,6 +749,7 @@
         .form-submit:hover {
             background: #f40612;
             transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(229, 9, 20, 0.3);
         }
 
         .form-submit:disabled {
@@ -780,11 +842,13 @@
             transition: all 0.3s;
             text-decoration: none;
             color: inherit;
+            border: 1px solid rgba(229, 9, 20, 0);
         }
 
         .contact-item:hover {
             background: rgba(229, 9, 20, 0.1);
             transform: translateX(10px);
+            border-color: rgba(229, 9, 20, 0.3);
         }
 
         .contact-icon {
@@ -822,11 +886,44 @@
             text-decoration: none;
             font-size: 20px;
             transition: all 0.3s;
+            border: 1px solid rgba(229, 9, 20, 0);
         }
 
         .social-btn:hover {
             background: var(--primary);
+            transform: translateY(-5px) scale(1.1);
+            border-color: var(--primary);
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3);
+        }
+
+        .back-to-top:hover {
+            background: #f40612;
             transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(229, 9, 20, 0.5);
+        }
+
+        .back-to-top.show {
+            display: flex;
         }
 
         /* Footer */
@@ -869,92 +966,6 @@
             transition: all 0.3s;
         }
 
-        /* Scroll Indicator */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            animation: bounce 2s infinite;
-            z-index: 10;
-        }
-
-        .scroll-indicator p {
-            font-size: 14px;
-            color: var(--light-gray);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            font-weight: 600;
-        }
-
-        .scroll-indicator svg {
-            width: 24px;
-            height: 24px;
-            stroke: var(--primary);
-            stroke-width: 2;
-            fill: none;
-        }
-
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateX(-50%) translateY(0);
-                opacity: 1;
-            }
-            50% {
-                transform: translateX(-50%) translateY(10px);
-                opacity: 0.5;
-            }
-        }
-
-        /* Back to Top Button */
-        .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            background: var(--primary);
-            color: #fff;
-            border: none;
-            border-radius: 50%;
-            font-size: 24px;
-            cursor: pointer;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 999;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3);
-        }
-
-        .back-to-top:hover {
-            background: #f40612;
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(229, 9, 20, 0.5);
-        }
-
-        .back-to-top.show {
-            display: flex;
-        }
-
-        @media (max-width: 768px) {
-            .back-to-top {
-                bottom: 20px;
-                right: 20px;
-                width: 45px;
-                height: 45px;
-                font-size: 20px;
-            }
-
-            .scroll-indicator {
-                bottom: 30px;
-            }
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
             .nav-links {
@@ -992,13 +1003,25 @@
             .hero-buttons {
                 flex-direction: column;
             }
+
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+            }
+
+            .scroll-indicator {
+                bottom: 30px;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
-        <div class="loading-logo clickable" id="loadingLogo">AP</div>
+        <div class="loading-logo" id="loadingLogo">AP</div>
         <div class="click-instruction" id="clickInstruction">Click the logo to start</div>
         <div class="loading-bar" id="loadingBar">
             <div class="loading-progress"></div>
@@ -1040,6 +1063,12 @@
                 <a href="#projects" class="btn btn-primary">View My Work</a>
                 <a href="#contact" class="btn btn-secondary">Get In Touch</a>
             </div>
+        </div>
+        <div class="scroll-indicator">
+            <p>Scroll</p>
+            <svg viewBox="0 0 24 24">
+                <path d="M12 5v14M5 12l7 7 7-7" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
         </div>
     </section>
 
@@ -1169,9 +1198,7 @@
         </div>
         <div class="projects-grid">
             <div class="project-card">
-                <div class="project-image">
-                    🎙️
-                </div>
+                <div class="project-image">🎙️</div>
                 <div class="project-info">
                     <div class="project-meta">
                         <span class="project-badge">Featured</span>
@@ -1192,9 +1219,7 @@
             </div>
 
             <div class="project-card">
-                <div class="project-image">
-                    🏥
-                </div>
+                <div class="project-image">🏥</div>
                 <div class="project-info">
                     <div class="project-meta">
                         <span class="project-badge">Healthcare AI</span>
@@ -1214,9 +1239,7 @@
             </div>
 
             <div class="project-card">
-                <div class="project-image">
-                    📞
-                </div>
+                <div class="project-image">📞</div>
                 <div class="project-info">
                     <div class="project-meta">
                         <span class="project-badge">Audio ML</span>
@@ -1260,6 +1283,18 @@
             </div>
 
             <div class="timeline-item">
+                <div class="timeline-date">AUGUST 2024 – PRESENT</div>
+                <h3 class="timeline-title">Graduate Teaching Associate</h3>
+                <div class="timeline-company">The Ohio State University | Columbus, OH</div>
+                <div class="timeline-description">
+                    <ul>
+                        <li>Led 4 weekly recitations and tutoring sessions for a class of 30 students, planning and instructing class lectures, and grading assignments and exams with precision and efficiency.</li>
+                        <li>Delivered personalized feedback to students weekly, enhancing understanding of course material; maintained accurate attendance records and responded swiftly to student emails.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
                 <div class="timeline-date">MAY 2023 – FEBRUARY 2024</div>
                 <h3 class="timeline-title">Data Engineer</h3>
                 <div class="timeline-company">MollisSoft | El Segundo, CA</div>
@@ -1286,6 +1321,30 @@
                     </ul>
                 </div>
             </div>
+
+            <div class="timeline-item">
+                <div class="timeline-date">SEPTEMBER 2021 – MAY 2022</div>
+                <h3 class="timeline-title">Undergraduate Teaching Assistant</h3>
+                <div class="timeline-company">University of Massachusetts Amherst | USA</div>
+                <div class="timeline-description">
+                    <ul>
+                        <li>Answer or redirect student questions and email queries in a timely fashion.</li>
+                        <li>Holding office hours for five hours each week. Be available, as needed, to assist in administrative and logistical tasks of the course such as grading, scanning/copying course materials, updating attendance records, responding to student emails, keeping Moodle up to date, preparing for class, responding to instructor requests.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-date">JUNE 2020 – AUGUST 2020</div>
+                <h3 class="timeline-title">Software Engineer Intern</h3>
+                <div class="timeline-company">K.P Mobitech | Mumbai, India</div>
+                <div class="timeline-description">
+                    <ul>
+                        <li>Collaborated on web-based project management tool features. Utilized Java and Spring Framework to work on backend development, enhancing application functionalities and optimizing database queries to improve overall performance.</li>
+                        <li>Conducted thorough unit testing and code reviews to ensure reliable software delivery.</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -1300,7 +1359,7 @@
                 <div class="contact-form-container">
                     <h3>Send Me a Message</h3>
                     <p style="color: var(--light-gray); font-size: 14px; margin-bottom: 20px;">
-                        Fill out the form below
+                        Fill out the form below and I'll get back to you as soon as possible.
                     </p>
                     <form id="contactForm">
                         <div class="form-group">
@@ -1380,7 +1439,10 @@
         <p>&copy; 2025 Aayush Panchal. All rights reserved. Built with passion for data science and machine learning.</p>
     </footer>
 
+    <button class="back-to-top" id="backToTop">↑</button>
+
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
         // ===== NETFLIX SOUND ON CLICK =====
         let loadingStarted = false;
@@ -1413,86 +1475,161 @@
         });
         // ===== END NETFLIX SOUND CODE =====
 
-        // Particle Animation Background
-        const canvas = document.getElementById('particleCanvas');
-        const ctx = canvas.getContext('2d');
-        
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        resizeCanvas();
+        // ===== THREE.JS 3D BACKGROUND =====
+        let scene, camera, renderer, particles;
 
-        let particles = [];
-        const particleCount = window.innerWidth < 768 ? 50 : 100;
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.5;
-                this.vy = (Math.random() - 0.5) * 0.5;
-                this.radius = Math.random() * 2 + 1;
-            }
-
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-
-                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-            }
-
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(229, 9, 20, 0.6)';
-                ctx.fill();
-            }
-        }
-
-        for (let i = 0; i < particleCount; i++) {
-            particles.push(new Particle());
-        }
-
-        let animationId;
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        function initThreeJS() {
+            const canvas = document.getElementById('particleCanvas');
             
-            particles.forEach(particle => {
-                particle.update();
-                particle.draw();
+            // Scene setup
+            scene = new THREE.Scene();
+            scene.background = null;
+            
+            // Camera setup
+            camera = new THREE.PerspectiveCamera(
+                75,
+                window.innerWidth / window.innerHeight,
+                0.1,
+                1000
+            );
+            camera.position.z = 100;
+            
+            // Renderer setup
+            renderer = new THREE.WebGLRenderer({ 
+                canvas: canvas, 
+                alpha: true,
+                antialias: true
             });
-
-            particles.forEach((p1, i) => {
-                particles.slice(i + 1).forEach(p2 => {
-                    const dx = p1.x - p2.x;
-                    const dy = p1.y - p2.y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-
-                    if (distance < 120) {
-                        ctx.beginPath();
-                        ctx.strokeStyle = `rgba(229, 9, 20, ${0.3 * (1 - distance / 120)})`;
-                        ctx.lineWidth = 1;
-                        ctx.moveTo(p1.x, p1.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.stroke();
-                    }
-                });
-            });
-
-            animationId = requestAnimationFrame(animate);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setClearColor(0x000000, 0);
+            
+            // Create particles
+            createParticles();
+            
+            // Animation loop
+            animate();
+            
+            // Handle window resize
+            window.addEventListener('resize', onWindowResize, false);
+            
+            // Mouse movement tracking
+            document.addEventListener('mousemove', onMouseMove, false);
         }
 
-        animate();
-
-        window.addEventListener('resize', () => {
-            resizeCanvas();
-            particles = [];
-            const newCount = window.innerWidth < 768 ? 50 : 100;
-            for (let i = 0; i < newCount; i++) {
-                particles.push(new Particle());
+        function createParticles() {
+            const geometry = new THREE.BufferGeometry();
+            const particleCount = window.innerWidth < 768 ? 100 : 300;
+            
+            const positions = new Float32Array(particleCount * 3);
+            const velocities = new Float32Array(particleCount * 3);
+            
+            for (let i = 0; i < particleCount * 3; i += 3) {
+                positions[i] = (Math.random() - 0.5) * 400;
+                positions[i + 1] = (Math.random() - 0.5) * 400;
+                positions[i + 2] = (Math.random() - 0.5) * 400;
+                
+                velocities[i] = (Math.random() - 0.5) * 2;
+                velocities[i + 1] = (Math.random() - 0.5) * 2;
+                velocities[i + 2] = (Math.random() - 0.5) * 2;
             }
+            
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('velocity', new THREE.BufferAttribute(velocities, 3));
+            
+            const material = new THREE.PointsMaterial({
+                color: 0xe50914,
+                size: 2,
+                sizeAttenuation: true,
+                transparent: true,
+                opacity: 0.7
+            });
+            
+            particles = new THREE.Points(geometry, material);
+            scene.add(particles);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            if (!particles) return;
+            
+            const positions = particles.geometry.attributes.position.array;
+            const velocities = particles.geometry.attributes.velocity.array;
+            
+            for (let i = 0; i < positions.length; i += 3) {
+                positions[i] += velocities[i];
+                positions[i + 1] += velocities[i + 1];
+                positions[i + 2] += velocities[i + 2];
+                
+                // Wrap around
+                if (positions[i] > 200) positions[i] = -200;
+                if (positions[i] < -200) positions[i] = 200;
+                if (positions[i + 1] > 200) positions[i + 1] = -200;
+                if (positions[i + 1] < -200) positions[i + 1] = 200;
+                if (positions[i + 2] > 200) positions[i + 2] = -200;
+                if (positions[i + 2] < -200) positions[i + 2] = 200;
+            }
+            
+            particles.geometry.attributes.position.needsUpdate = true;
+            particles.rotation.x += 0.0001;
+            particles.rotation.y += 0.0002;
+            
+            renderer.render(scene, camera);
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        let mouseX = 0;
+        let mouseY = 0;
+
+        function onMouseMove(event) {
+            mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+            
+            if (particles) {
+                particles.rotation.x += mouseY * 0.0005;
+                particles.rotation.y += mouseX * 0.0005;
+            }
+        }
+
+        // Initialize Three.js when page loads
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                if (loadingStarted) {
+                    initThreeJS();
+                }
+            }, 2100);
+        });
+
+        // Initialize immediately if page already loaded
+        if (document.readyState === 'complete') {
+            setTimeout(() => {
+                if (loadingStarted) {
+                    initThreeJS();
+                }
+            }, 2100);
+        }
+
+        // Back to Top Button
+        const backToTopBtn = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         });
 
         // Contact Form Handling
@@ -1627,6 +1764,3 @@
 
         document.querySelector('#home').style.opacity = '1';
         document.querySelector('#home').style.transform = 'translateY(0)';
-    </script>
-</body>
-</html>
