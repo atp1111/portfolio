@@ -42,6 +42,10 @@
             text-shadow: 0 0 20px rgba(229, 9, 20, 0.8);
         }
 
+        .loading-logo.clickable {
+            animation: pulse-glow 1s ease-in-out infinite;
+        }
+
         .click-instruction {
             color: var(--light-gray);
             font-size: 16px;
@@ -77,6 +81,11 @@
             50% { opacity: 0.7; transform: scale(1.05); }
         }
 
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 1; transform: scale(1); text-shadow: 0 0 10px rgba(229, 9, 20, 0.5); }
+            50% { opacity: 1; transform: scale(1.08); text-shadow: 0 0 30px rgba(229, 9, 20, 0.8); }
+        }
+
         @keyframes loadProgress {
             0% { width: 0%; }
             100% { width: 100%; }
@@ -85,17 +94,6 @@
         @keyframes fadeInOut {
             0%, 100% { opacity: 0.3; }
             50% { opacity: 1; }
-        }
-
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateX(-50%) translateY(0);
-                opacity: 1;
-            }
-            50% {
-                transform: translateX(-50%) translateY(10px);
-                opacity: 0.5;
-            }
         }
     </style>
     <style>
@@ -306,35 +304,6 @@
             border-color: rgba(255,255,255,0.5);
         }
 
-        /* Scroll Indicator */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            animation: bounce 2s infinite;
-            z-index: 10;
-        }
-
-        .scroll-indicator p {
-            font-size: 12px;
-            color: var(--light-gray);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            font-weight: 600;
-        }
-
-        .scroll-indicator svg {
-            width: 20px;
-            height: 20px;
-            stroke: var(--primary);
-            stroke-width: 2;
-            fill: none;
-        }
-
         /* Section Styles */
         section {
             padding: 80px 4%;
@@ -385,11 +354,6 @@
             justify-content: center;
             font-size: 120px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-            transition: transform 0.3s ease;
-        }
-
-        .about-image:hover {
-            transform: scale(1.05);
         }
 
         .about-text {
@@ -414,12 +378,6 @@
             padding: 20px;
             background: var(--card-bg);
             border-radius: 8px;
-            transition: all 0.3s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(229, 9, 20, 0.2);
         }
 
         .stat-number {
@@ -446,14 +404,12 @@
             background: var(--card-bg);
             padding: 30px;
             border-radius: 12px;
-            transition: all 0.3s;
-            border: 1px solid rgba(229, 9, 20, 0);
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
         .skill-category:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 40px rgba(229, 9, 20, 0.2);
-            border-color: rgba(229, 9, 20, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .skill-icon {
@@ -479,13 +435,6 @@
             border-radius: 20px;
             font-size: 13px;
             color: var(--light-gray);
-            transition: all 0.3s;
-            border: 1px solid rgba(229, 9, 20, 0);
-        }
-
-        .skill-tag:hover {
-            background: rgba(229, 9, 20, 0.2);
-            border-color: var(--primary);
         }
 
         /* Projects Section */
@@ -499,7 +448,7 @@
             background: var(--card-bg);
             border-radius: 12px;
             overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: all 0.4s ease;
             cursor: pointer;
             position: relative;
             border: 1px solid rgba(229, 9, 20, 0);
@@ -526,6 +475,18 @@
 
         .project-card:hover .project-image {
             transform: scale(1.1) rotate(2deg);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            position: relative;
+            overflow: hidden;
         }
 
         .project-card:nth-child(2) .project-image {
@@ -579,11 +540,6 @@
             border-radius: 4px;
             font-size: 12px;
             color: var(--light-gray);
-            transition: all 0.3s;
-        }
-
-        .tech-tag:hover {
-            background: rgba(229, 9, 20, 0.2);
         }
 
         /* Experience Timeline */
@@ -600,7 +556,7 @@
             top: 0;
             bottom: 0;
             width: 2px;
-            background: linear-gradient(180deg, var(--primary) 0%, var(--card-bg) 100%);
+            background: var(--card-bg);
         }
 
         .timeline-item {
@@ -610,13 +566,11 @@
             background: var(--card-bg);
             border-radius: 12px;
             transition: all 0.3s;
-            border: 1px solid rgba(229, 9, 20, 0);
         }
 
         .timeline-item:hover {
             transform: translateX(10px);
-            box-shadow: 0 10px 30px rgba(229, 9, 20, 0.2);
-            border-color: rgba(229, 9, 20, 0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .timeline-item::before {
@@ -629,12 +583,6 @@
             background: var(--primary);
             border-radius: 50%;
             border: 3px solid var(--dark);
-            transition: all 0.3s;
-        }
-
-        .timeline-item:hover::before {
-            transform: scale(1.3);
-            box-shadow: 0 0 15px rgba(229, 9, 20, 0.6);
         }
 
         .timeline-date {
@@ -680,7 +628,6 @@
             background: var(--card-bg);
             padding: 40px;
             border-radius: 12px;
-            border: 1px solid rgba(229, 9, 20, 0.2);
         }
 
         .contact-form-container h3 {
@@ -718,7 +665,6 @@
             outline: none;
             border-color: var(--primary);
             background: rgba(255,255,255,0.08);
-            box-shadow: 0 0 10px rgba(229, 9, 20, 0.2);
         }
 
         .form-group textarea {
@@ -742,7 +688,6 @@
         .form-submit:hover {
             background: #f40612;
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(229, 9, 20, 0.3);
         }
 
         .form-submit:disabled {
@@ -835,13 +780,11 @@
             transition: all 0.3s;
             text-decoration: none;
             color: inherit;
-            border: 1px solid rgba(229, 9, 20, 0);
         }
 
         .contact-item:hover {
             background: rgba(229, 9, 20, 0.1);
             transform: translateX(10px);
-            border-color: rgba(229, 9, 20, 0.3);
         }
 
         .contact-icon {
@@ -879,44 +822,11 @@
             text-decoration: none;
             font-size: 20px;
             transition: all 0.3s;
-            border: 1px solid rgba(229, 9, 20, 0);
         }
 
         .social-btn:hover {
             background: var(--primary);
-            transform: translateY(-5px) scale(1.1);
-            border-color: var(--primary);
-        }
-
-        /* Back to Top Button */
-        .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            background: var(--primary);
-            color: #fff;
-            border: none;
-            border-radius: 50%;
-            font-size: 24px;
-            cursor: pointer;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 999;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3);
-        }
-
-        .back-to-top:hover {
-            background: #f40612;
             transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(229, 9, 20, 0.5);
-        }
-
-        .back-to-top.show {
-            display: flex;
         }
 
         /* Footer */
@@ -959,6 +869,92 @@
             transition: all 0.3s;
         }
 
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            animation: bounce 2s infinite;
+            z-index: 10;
+        }
+
+        .scroll-indicator p {
+            font-size: 14px;
+            color: var(--light-gray);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .scroll-indicator svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--primary);
+            stroke-width: 2;
+            fill: none;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateX(-50%) translateY(0);
+                opacity: 1;
+            }
+            50% {
+                transform: translateX(-50%) translateY(10px);
+                opacity: 0.5;
+            }
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3);
+        }
+
+        .back-to-top:hover {
+            background: #f40612;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(229, 9, 20, 0.5);
+        }
+
+        .back-to-top.show {
+            display: flex;
+        }
+
+        @media (max-width: 768px) {
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+            }
+
+            .scroll-indicator {
+                bottom: 30px;
+            }
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .nav-links {
@@ -996,25 +992,13 @@
             .hero-buttons {
                 flex-direction: column;
             }
-
-            .back-to-top {
-                bottom: 20px;
-                right: 20px;
-                width: 45px;
-                height: 45px;
-                font-size: 20px;
-            }
-
-            .scroll-indicator {
-                bottom: 30px;
-            }
         }
     </style>
 </head>
 <body>
     <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
-        <div class="loading-logo" id="loadingLogo">AP</div>
+        <div class="loading-logo clickable" id="loadingLogo">AP</div>
         <div class="click-instruction" id="clickInstruction">Click the logo to start</div>
         <div class="loading-bar" id="loadingBar">
             <div class="loading-progress"></div>
@@ -1056,12 +1040,6 @@
                 <a href="#projects" class="btn btn-primary">View My Work</a>
                 <a href="#contact" class="btn btn-secondary">Get In Touch</a>
             </div>
-        </div>
-        <div class="scroll-indicator">
-            <p>Scroll</p>
-            <svg viewBox="0 0 24 24">
-                <path d="M12 5v14M5 12l7 7 7-7" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
         </div>
     </section>
 
@@ -1191,7 +1169,9 @@
         </div>
         <div class="projects-grid">
             <div class="project-card">
-                <div class="project-image">🎙️</div>
+                <div class="project-image">
+                    🎙️
+                </div>
                 <div class="project-info">
                     <div class="project-meta">
                         <span class="project-badge">Featured</span>
@@ -1212,7 +1192,9 @@
             </div>
 
             <div class="project-card">
-                <div class="project-image">🏥</div>
+                <div class="project-image">
+                    🏥
+                </div>
                 <div class="project-info">
                     <div class="project-meta">
                         <span class="project-badge">Healthcare AI</span>
@@ -1232,7 +1214,9 @@
             </div>
 
             <div class="project-card">
-                <div class="project-image">📞</div>
+                <div class="project-image">
+                    📞
+                </div>
                 <div class="project-info">
                     <div class="project-meta">
                         <span class="project-badge">Audio ML</span>
@@ -1261,38 +1245,16 @@
         </div>
         <div class="timeline">
             <div class="timeline-item">
-                <div class="timeline-date">JUNE 2020 – AUGUST 2020</div>
-                <h3 class="timeline-title">Software Engineer Intern</h3>
-                <div class="timeline-company">K.P Mobitech | Mumbai, India</div>
+                <div class="timeline-date">JUNE 2025 – AUGUST 2025</div>
+                <h3 class="timeline-title">Data Science Intern</h3>
+                <div class="timeline-company">OhioHealth | Columbus, OH</div>
                 <div class="timeline-description">
                     <ul>
-                        <li>Collaborated on web-based project management tool features. Utilized Java and Spring Framework to work on backend development, enhancing application functionalities and optimizing database queries to improve overall performance.</li>
-                        <li>Conducted thorough unit testing and code reviews to ensure reliable software delivery.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="timeline-date">MAY 2022 – AUGUST 2022</div>
-                <h3 class="timeline-title">Data Analyst Intern</h3>
-                <div class="timeline-company">Wallfort Inc. | Mumbai, India</div>
-                <div class="timeline-description">
-                    <ul>
-                        <li>Applied statistical models in R to estimate loan repayment probabilities under uncertainty, strengthening decision-making for credit assessments and financial risk management</li>
-                        <li>Designed AI-enhanced Tableau dashboards and automated reports to surface actionable business and operational insights for internal teams</li>
-                        <li>Built predictive models combined with A/B testing, enabling targeted marketing campaigns that improved customer retention by 15%</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="timeline-date">SEPTEMBER 2021 – MAY 2022</div>
-                <h3 class="timeline-title">Undergraduate Teaching Assistant</h3>
-                <div class="timeline-company">University of Massachusetts Amherst | USA</div>
-                <div class="timeline-description">
-                    <ul>
-                        <li>Answer or redirect student questions and email queries in a timely fashion.</li>
-                        <li>Holding office hours for five hours each week. Be available, as needed, to assist in administrative and logistical tasks of the course such as grading, scanning/copying course materials, updating attendance records, responding to student emails, keeping Moodle up to date, preparing for class, responding to instructor requests.</li>
+                        <li>Designed and deployed an end-to-end AI pipeline combining Wav2Vec2 embeddings with Llama-70B LLM, enabling sentiment and topic extraction from more than 50,000 clinical audio files to accelerate insight generation</li>
+                        <li>Automated ETL workflows using Azure Databricks Jobs API, creating parameterized pipelines that ensured repeatable, scalable, and reliable processing of large clinical datasets</li>
+                        <li>Applied MLflow for systematic experiment tracking, enabling reproducibility and providing audit-ready records of models and results</li>
+                        <li>Developed PySpark UDFs to integrate ML inference within distributed processing pipelines, reducing manual review time by 75% and significantly increasing throughput for clinical stakeholders</li>
+                        <li>Partnered with clinical and IT teams to optimize model efficiency and infrastructure, achieving a 40% reduction in compute costs while maintaining quality and compliance standards</li>
                     </ul>
                 </div>
             </div>
@@ -1313,28 +1275,14 @@
             </div>
 
             <div class="timeline-item">
-                <div class="timeline-date">AUGUST 2024 – PRESENT</div>
-                <h3 class="timeline-title">Graduate Teaching Associate</h3>
-                <div class="timeline-company">The Ohio State University | Columbus, OH</div>
+                <div class="timeline-date">MAY 2022 – AUGUST 2022</div>
+                <h3 class="timeline-title">Data Analyst Intern</h3>
+                <div class="timeline-company">Wallfort Inc. | Mumbai, India</div>
                 <div class="timeline-description">
                     <ul>
-                        <li>Led 4 weekly recitations and tutoring sessions for a class of 30 students, planning and instructing class lectures, and grading assignments and exams with precision and efficiency.</li>
-                        <li>Delivered personalized feedback to students weekly, enhancing understanding of course material; maintained accurate attendance records and responded swiftly to student emails.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="timeline-date">JUNE 2025 – AUGUST 2025</div>
-                <h3 class="timeline-title">Data Science Intern</h3>
-                <div class="timeline-company">OhioHealth | Columbus, OH</div>
-                <div class="timeline-description">
-                    <ul>
-                        <li>Designed and deployed an end-to-end AI pipeline combining Wav2Vec2 embeddings with Llama-70B LLM, enabling sentiment and topic extraction from more than 50,000 clinical audio files to accelerate insight generation</li>
-                        <li>Automated ETL workflows using Azure Databricks Jobs API, creating parameterized pipelines that ensured repeatable, scalable, and reliable processing of large clinical datasets</li>
-                        <li>Applied MLflow for systematic experiment tracking, enabling reproducibility and providing audit-ready records of models and results</li>
-                        <li>Developed PySpark UDFs to integrate ML inference within distributed processing pipelines, reducing manual review time by 75% and significantly increasing throughput for clinical stakeholders</li>
-                        <li>Partnered with clinical and IT teams to optimize model efficiency and infrastructure, achieving a 40% reduction in compute costs while maintaining quality and compliance standards</li>
+                        <li>Applied statistical models in R to estimate loan repayment probabilities under uncertainty, strengthening decision-making for credit assessments and financial risk management</li>
+                        <li>Designed AI-enhanced Tableau dashboards and automated reports to surface actionable business and operational insights for internal teams</li>
+                        <li>Built predictive models combined with A/B testing, enabling targeted marketing campaigns that improved customer retention by 15%</li>
                     </ul>
                 </div>
             </div>
@@ -1352,7 +1300,7 @@
                 <div class="contact-form-container">
                     <h3>Send Me a Message</h3>
                     <p style="color: var(--light-gray); font-size: 14px; margin-bottom: 20px;">
-                        Fill out the form below and I'll get back to you as soon as possible.
+                        Fill out the form below
                     </p>
                     <form id="contactForm">
                         <div class="form-group">
@@ -1432,8 +1380,6 @@
         <p>&copy; 2025 Aayush Panchal. All rights reserved. Built with passion for data science and machine learning.</p>
     </footer>
 
-    <button class="back-to-top" id="backToTop">↑</button>
-
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script>
         // ===== NETFLIX SOUND ON CLICK =====
@@ -1467,7 +1413,7 @@
         });
         // ===== END NETFLIX SOUND CODE =====
 
-        // Particle Animation Background - OPTIMIZED FOR MOBILE
+        // Particle Animation Background
         const canvas = document.getElementById('particleCanvas');
         const ctx = canvas.getContext('2d');
         
@@ -1478,18 +1424,15 @@
         resizeCanvas();
 
         let particles = [];
-        const isMobile = window.innerWidth < 768;
-        const particleCount = isMobile ? 30 : 80;
-        let animationId;
-        let shouldAnimate = true;
+        const particleCount = window.innerWidth < 768 ? 50 : 100;
 
         class Particle {
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.3;
-                this.vy = (Math.random() - 0.5) * 0.3;
-                this.radius = Math.random() * 1.5 + 0.5;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.radius = Math.random() * 2 + 1;
             }
 
             update() {
@@ -1512,6 +1455,7 @@
             particles.push(new Particle());
         }
 
+        let animationId;
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
@@ -1520,28 +1464,24 @@
                 particle.draw();
             });
 
-            if (!isMobile) {
-                particles.forEach((p1, i) => {
-                    particles.slice(i + 1).forEach(p2 => {
-                        const dx = p1.x - p2.x;
-                        const dy = p1.y - p2.y;
-                        const distance = Math.sqrt(dx * dx + dy * dy);
+            particles.forEach((p1, i) => {
+                particles.slice(i + 1).forEach(p2 => {
+                    const dx = p1.x - p2.x;
+                    const dy = p1.y - p2.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
 
-                        if (distance < 100) {
-                            ctx.beginPath();
-                            ctx.strokeStyle = `rgba(229, 9, 20, ${0.2 * (1 - distance / 100)})`;
-                            ctx.lineWidth = 0.8;
-                            ctx.moveTo(p1.x, p1.y);
-                            ctx.lineTo(p2.x, p2.y);
-                            ctx.stroke();
-                        }
-                    });
+                    if (distance < 120) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(229, 9, 20, ${0.3 * (1 - distance / 120)})`;
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
                 });
-            }
+            });
 
-            if (shouldAnimate) {
-                animationId = requestAnimationFrame(animate);
-            }
+            animationId = requestAnimationFrame(animate);
         }
 
         animate();
@@ -1549,27 +1489,10 @@
         window.addEventListener('resize', () => {
             resizeCanvas();
             particles = [];
-            const newCount = window.innerWidth < 768 ? 30 : 80;
+            const newCount = window.innerWidth < 768 ? 50 : 100;
             for (let i = 0; i < newCount; i++) {
                 particles.push(new Particle());
             }
-        });
-
-        // Back to Top Button
-        const backToTopBtn = document.getElementById('backToTop');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                backToTopBtn.classList.add('show');
-            } else {
-                backToTopBtn.classList.remove('show');
-            }
-        });
-
-        backToTopBtn.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
         });
 
         // Contact Form Handling
@@ -1704,3 +1627,6 @@
 
         document.querySelector('#home').style.opacity = '1';
         document.querySelector('#home').style.transform = 'translateY(0)';
+    </script>
+</body>
+</html>
