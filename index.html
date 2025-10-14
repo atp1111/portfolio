@@ -5,6 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aayush Panchal - Data Scientist & ML Engineer</title>
     <style>
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-logo {
+            font-size: 80px;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 10px;
+            animation: pulse 1.5s ease-in-out infinite;
+            margin-bottom: 30px;
+        }
+
+        .loading-bar {
+            width: 200px;
+            height: 4px;
+            background: #333;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .loading-progress {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            animation: loadProgress 2s ease-out forwards;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+        }
+
+        @keyframes loadProgress {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+    </style>
+    <style>
         * {
             margin: 0;
             padding: 0;
@@ -96,10 +152,36 @@
             align-items: center;
             justify-content: center;
             position: relative;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
-                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23667eea;stop-opacity:0.1"/><stop offset="100%" style="stop-color:%23764ba2;stop-opacity:0.1"/></linearGradient></defs><rect fill="%23000" width="1920" height="1080"/><circle cx="300" cy="200" r="150" fill="url(%23g)"/><circle cx="1600" cy="800" r="200" fill="url(%23g)"/><circle cx="1200" cy="300" r="120" fill="url(%23g)"/></svg>');
-            background-size: cover;
-            background-position: center;
+            overflow: hidden;
+        }
+
+        /* Video Background */
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .video-background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7));
+            z-index: 1;
+        }
+
+        .video-background canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
         }
 
         .hero-content {
@@ -107,6 +189,8 @@
             max-width: 900px;
             padding: 0 20px;
             animation: fadeInUp 1s ease;
+            position: relative;
+            z-index: 2;
         }
 
         .hero-subtitle {
@@ -477,6 +561,146 @@
             align-items: start;
         }
 
+        .contact-form-container {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+        }
+
+        .contact-form-container h3 {
+            margin-bottom: 25px;
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--light-gray);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 6px;
+            color: #fff;
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255,255,255,0.08);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .form-submit:hover {
+            background: #f40612;
+            transform: translateY(-2px);
+        }
+
+        .form-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .form-message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .form-message.success {
+            background: rgba(67, 233, 123, 0.2);
+            color: #43e97b;
+            display: block;
+        }
+
+        .form-message.error {
+            background: rgba(229, 9, 20, 0.2);
+            color: var(--primary);
+            display: block;
+        }
+
+        /* Availability Badge */
+        .availability-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(67, 233, 123, 0.2);
+            border: 1px solid #43e97b;
+            border-radius: 20px;
+            color: #43e97b;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .availability-dot {
+            width: 8px;
+            height: 8px;
+            background: #43e97b;
+            border-radius: 50%;
+            animation: blink 2s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Resume Download Button */
+        .resume-download {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 6px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .resume-download:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
         .contact-info {
             display: flex;
             flex-direction: column;
@@ -623,6 +847,14 @@
     </style>
 </head>
 <body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-logo">AP</div>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+    </div>
+
     <!-- Navbar -->
     <nav class="navbar" id="navbar">
         <div class="logo">AAYUSH PANCHAL</div>
@@ -643,7 +875,14 @@
 
     <!-- Hero Section -->
     <section class="hero" id="home">
+        <div class="video-background">
+            <canvas id="particleCanvas"></canvas>
+        </div>
         <div class="hero-content">
+            <div class="availability-badge">
+                <div class="availability-dot"></div>
+                Open to Opportunities
+            </div>
             <div class="hero-subtitle">Data Scientist & ML Engineer</div>
             <h1>Transforming Data into Intelligent Solutions</h1>
             <p class="hero-description">MS Statistics student at Ohio State University specializing in AI/ML pipelines, cloud infrastructure, and scalable data solutions. Passionate about building end-to-end systems that drive real-world impact.</p>
@@ -907,6 +1146,31 @@
             <h2 class="section-title">Get In Touch</h2>
         </div>
         <div class="contact-grid">
+            <div>
+                <div class="contact-form-container">
+                    <h3>Send Me a Message</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Your Name *</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Your Email *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject *</label>
+                            <input type="text" id="subject" name="subject" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" name="message" required></textarea>
+                        </div>
+                        <button type="submit" class="form-submit" id="submitBtn">Send Message</button>
+                        <div class="form-message" id="formMessage"></div>
+                    </form>
+                </div>
+            </div>
             <div class="contact-info">
                 <a href="mailto:aayushpanchal1111@gmail.com" class="contact-item">
                     <div class="contact-icon">📧</div>
@@ -936,22 +1200,23 @@
                         <p>Columbus, Ohio</p>
                     </div>
                 </div>
-            </div>
-            <div>
-                <h3 style="margin-bottom: 20px;">Education</h3>
+                <h3 style="margin-top: 40px; margin-bottom: 20px;">Education</h3>
                 <div style="background: var(--card-bg); padding: 30px; border-radius: 12px; margin-bottom: 20px;">
                     <h4 style="color: var(--primary); margin-bottom: 10px;">Master of Science in Statistics</h4>
                     <p style="color: var(--light-gray); margin-bottom: 5px;">The Ohio State University</p>
                     <p style="color: var(--gray); font-size: 14px;">Expected 2026</p>
                 </div>
-                <div style="background: var(--card-bg); padding: 30px; border-radius: 12px;">
+                <div style="background: var(--card-bg); padding: 30px; border-radius: 12px; margin-bottom: 20px;">
                     <h4 style="color: var(--primary); margin-bottom: 10px;">Bachelor of Science in Computer Science & Mathematics</h4>
                     <p style="color: var(--light-gray); margin-bottom: 5px;">UMass Amherst</p>
                     <p style="color: var(--gray); font-size: 14px; margin-bottom: 5px;">Statistics Concentration | 2022</p>
                 </div>
+                <a href="#" class="resume-download" id="resumeDownload">
+                    📄 Download Resume
+                </a>
                 <div class="social-links">
                     <a href="https://linkedin.com/in/atpp" class="social-btn" target="_blank">💼</a>
-                    <a href="https://github.com/atp1111" class="social-btn" target="_blank">💻</a>
+                    <a href="https://github.com/yourusername" class="social-btn" target="_blank">💻</a>
                     <a href="mailto:aayushpanchal1111@gmail.com" class="social-btn">📧</a>
                 </div>
             </div>
@@ -963,6 +1228,202 @@
     </footer>
 
     <script>
+        // Loading Screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('hidden');
+            }, 2000);
+        });
+
+        // Particle Animation Background
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particles = [];
+        const particleCount = 100;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.radius = Math.random() * 2 + 1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(229, 9, 20, 0.5)';
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+
+            // Draw connections
+            particles.forEach((p1, i) => {
+                particles.slice(i + 1).forEach(p2 => {
+                    const dx = p1.x - p2.x;
+                    const dy = p1.y - p2.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 100) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(229, 9, 20, ${0.2 * (1 - distance / 100)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                });
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Contact Form Handling
+        const contactForm = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const formMessage = document.getElementById('formMessage');
+
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value
+            };
+
+            // Disable button
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+
+            // Simulate sending (replace with actual email service like EmailJS or Formspree)
+            try {
+                // Simulated delay
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                // For now, just compose a mailto link as fallback
+                const mailtoLink = `mailto:aayushpanchal1111@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)}`;
+                
+                // Show success message
+                formMessage.textContent = 'Message sent successfully! Opening your email client...';
+                formMessage.className = 'form-message success';
+                
+                // Open mailto
+                setTimeout(() => {
+                    window.location.href = mailtoLink;
+                }, 1000);
+                
+                // Reset form
+                contactForm.reset();
+                
+                // Hide message after 5 seconds
+                setTimeout(() => {
+                    formMessage.style.display = 'none';
+                }, 5000);
+                
+            } catch (error) {
+                formMessage.textContent = 'Failed to send message. Please try again or email directly.';
+                formMessage.className = 'form-message error';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            }
+        });
+
+        // Resume Download
+        document.getElementById('resumeDownload').addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Create resume content
+            const resumeContent = `
+AAYUSH PANCHAL
+Columbus, OH | 614-353-8167 | aayushpanchal1111@gmail.com | linkedin.com/in/atpp
+
+EDUCATION
+Master of Science in Statistics | The Ohio State University | Expected 2026
+Bachelor of Science in Computer Science & Mathematics | UMass Amherst | 2022
+
+EXPERIENCE
+Data Science Intern | OhioHealth | June 2025 – August 2025
+• Designed and deployed end-to-end AI pipeline with Wav2Vec2 and Llama-70B for 50,000+ audio files
+• Automated ETL workflows using Azure Databricks Jobs API
+• Reduced manual review time by 75% and compute costs by 40%
+
+Data Engineer | MollisSoft | May 2023 – February 2024
+• Built scalable ETL pipelines improving data freshness by 40%
+• Optimized MySQL schemas reducing dashboard load times by 50%
+• Implemented AWS monitoring reducing downtime by 30%
+
+Data Analyst Intern | Wallfort Inc. | May 2022 – August 2022
+• Applied statistical models in R for loan repayment probability
+• Designed AI-enhanced Tableau dashboards
+• Improved customer retention by 15% through predictive models
+
+TECHNICAL SKILLS
+Languages: Python, SQL, R, Java, C++, Scala, JavaScript
+ML/AI: TensorFlow, PyTorch, PySpark, LangChain, scikit-learn, XGBoost
+Cloud/Tools: AWS, Azure, Docker, Kubernetes, MLflow, Databricks, Tableau
+            `;
+            
+            // Create blob and download
+            const blob = new Blob([resumeContent], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Aayush_Panchal_Resume.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            
+            // Show feedback
+            const originalText = e.target.textContent;
+            e.target.textContent = '✓ Downloaded!';
+            e.target.style.background = 'rgba(67, 233, 123, 0.2)';
+            e.target.style.borderColor = '#43e97b';
+            e.target.style.color = '#43e97b';
+            
+            setTimeout(() => {
+                e.target.textContent = originalText;
+                e.target.style.background = '';
+                e.target.style.borderColor = '';
+                e.target.style.color = '';
+            }, 2000);
+        });
+
         // Header scroll effect
         const header = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
