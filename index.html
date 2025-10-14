@@ -1247,6 +1247,20 @@
                 document.getElementById('loadingScreen').classList.add('hidden');
             }, 2000);
         });
+        const netflixSound = new Audio('./netflix-sound.mp3'); // Adjust path if needed
+        netflixSound.volume = 0.8; // Adjust volume (0-1)
+
+// Play sound when page starts loading
+        window.addEventListener('load', () => {
+            netflixSound.play().catch(error => {
+                console.log('Audio autoplay prevented:', error);
+        // Autoplay might be blocked by browser, that's okay
+    });
+    
+    setTimeout(() => {
+        document.getElementById('loadingScreen').classList.add('hidden');
+    }, 2000);
+});
 
         // Particle Animation Background
         const canvas = document.getElementById('particleCanvas');
