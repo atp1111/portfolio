@@ -448,13 +448,33 @@
             background: var(--card-bg);
             border-radius: 12px;
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             cursor: pointer;
+            position: relative;
+            border: 1px solid rgba(229, 9, 20, 0);
         }
 
         .project-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(229, 9, 20, 0.3);
+            border-color: rgba(229, 9, 20, 0.5);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s ease;
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.1) rotate(2deg);
         }
 
         .project-image {
@@ -849,6 +869,92 @@
             transition: all 0.3s;
         }
 
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            animation: bounce 2s infinite;
+            z-index: 10;
+        }
+
+        .scroll-indicator p {
+            font-size: 14px;
+            color: var(--light-gray);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .scroll-indicator svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--primary);
+            stroke-width: 2;
+            fill: none;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateX(-50%) translateY(0);
+                opacity: 1;
+            }
+            50% {
+                transform: translateX(-50%) translateY(10px);
+                opacity: 0.5;
+            }
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3);
+        }
+
+        .back-to-top:hover {
+            background: #f40612;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(229, 9, 20, 0.5);
+        }
+
+        .back-to-top.show {
+            display: flex;
+        }
+
+        @media (max-width: 768px) {
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+            }
+
+            .scroll-indicator {
+                bottom: 30px;
+            }
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .nav-links {
@@ -1194,7 +1300,7 @@
                 <div class="contact-form-container">
                     <h3>Send Me a Message</h3>
                     <p style="color: var(--light-gray); font-size: 14px; margin-bottom: 20px;">
-                        Fill out the form below 
+                        Fill out the form below
                     </p>
                     <form id="contactForm">
                         <div class="form-group">
@@ -1263,7 +1369,7 @@
                 </a>
                 <div class="social-links">
                     <a href="https://linkedin.com/in/atpp" class="social-btn" target="_blank">💼</a>
-                    <a href="https://github.com/yourusername" class="social-btn" target="_blank">💻</a>
+                    <a href="https://github.com/atp1111" class="social-btn" target="_blank">💻</a>
                     <a href="mailto:aayushpanchal1111@gmail.com" class="social-btn">📧</a>
                 </div>
             </div>
