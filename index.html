@@ -95,8 +95,7 @@
             0%, 100% { opacity: 0.3; }
             50% { opacity: 1; }
         }
-    </style>
-    <style>
+
         * {
             margin: 0;
             padding: 0;
@@ -189,14 +188,10 @@
             justify-content: center;
             position: relative;
             overflow: hidden;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(229, 9, 20, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(118, 75, 162, 0.15) 0%, transparent 50%),
-                var(--dark);
+            background: var(--dark);
         }
 
-        /* Video Background */
+        /* Video Background with Overlay */
         .video-background {
             position: absolute;
             top: 0;
@@ -214,7 +209,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7));
+            background: 
+                linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(20,20,20,0.7) 100%),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23141414" width="1200" height="800"/></svg>');
             z-index: 1;
         }
 
@@ -225,6 +222,61 @@
             width: 100%;
             height: 100%;
             display: block;
+            filter: brightness(0.6) blur(1px);
+        }
+
+        /* Animated background elements */
+        .bg-animation {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .floating-shape {
+            position: absolute;
+            background: linear-gradient(135deg, rgba(229, 9, 20, 0.1), rgba(229, 9, 20, 0.05));
+            border-radius: 50%;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .floating-shape:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-shape:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            top: 60%;
+            right: 15%;
+            animation-delay: 7s;
+        }
+
+        .floating-shape:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            bottom: 20%;
+            left: 50%;
+            animation-delay: 14s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0.3;
+            }
+            33% {
+                transform: translate(30px, -50px) scale(1.1);
+                opacity: 0.5;
+            }
+            66% {
+                transform: translate(-20px, 30px) scale(0.9);
+                opacity: 0.4;
+            }
         }
 
         .hero-content {
@@ -395,46 +447,131 @@
         /* Skills Section */
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
         }
 
         .skill-category {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 12px;
-            transition: transform 0.3s, box-shadow 0.3s;
+            background: linear-gradient(145deg, #1f1f1f 0%, #1a1a1a 100%);
+            padding: 40px 30px;
+            border-radius: 16px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(229, 9, 20, 0);
+            cursor: pointer;
+        }
+
+        .skill-category::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(229, 9, 20, 0.1) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
 
         .skill-category:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 
+                0 20px 40px rgba(229, 9, 20, 0.2),
+                0 0 0 1px rgba(229, 9, 20, 0.3),
+                inset 0 0 60px rgba(229, 9, 20, 0.05);
+            border-color: rgba(229, 9, 20, 0.4);
+        }
+
+        .skill-category:hover::before {
+            opacity: 1;
         }
 
         .skill-icon {
-            font-size: 40px;
-            margin-bottom: 15px;
+            font-size: 50px;
+            margin-bottom: 20px;
+            display: block;
+            transition: transform 0.4s ease;
+            filter: drop-shadow(0 4px 8px rgba(229, 9, 20, 0.3));
+        }
+
+        .skill-category:hover .skill-icon {
+            transform: scale(1.15) rotateY(10deg);
         }
 
         .skill-category h3 {
-            font-size: 20px;
+            font-size: 22px;
+            margin-bottom: 12px;
+            color: #fff;
+            font-weight: 700;
+            transition: color 0.3s ease;
+        }
+
+        .skill-category:hover h3 {
+            color: var(--primary);
+        }
+
+        .skill-category > p {
+            color: var(--light-gray);
+            font-size: 14px;
+            line-height: 1.6;
             margin-bottom: 15px;
         }
 
         .skill-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 8px;
+            margin-top: 20px;
         }
 
         .skill-tag {
-            padding: 6px 14px;
-            background: rgba(255,255,255,0.1);
+            padding: 8px 14px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
             border-radius: 20px;
-            font-size: 13px;
+            font-size: 12px;
             color: var(--light-gray);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .skill-category:hover .skill-tag {
+            background: rgba(229, 9, 20, 0.15);
+            border-color: rgba(229, 9, 20, 0.3);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* Skill Category Headers Section */
+        .skills-categories {
+            margin-top: 60px;
+        }
+
+        .category-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(229, 9, 20, 0.1) 0%, rgba(229, 9, 20, 0.05) 100%);
+            border-radius: 12px;
+            border: 1px solid rgba(229, 9, 20, 0.2);
+        }
+
+        .category-header h3 {
+            font-size: 32px;
+            color: #fff;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .category-divider {
+            width: 60px;
+            height: 4px;
+            background: var(--primary);
+            margin: 0 auto;
         }
 
         /* Projects Section */
@@ -475,18 +612,6 @@
 
         .project-card:hover .project-image {
             transform: scale(1.1) rotate(2deg);
-        }
-
-        .project-image {
-            width: 100%;
-            height: 250px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 60px;
-            position: relative;
-            overflow: hidden;
         }
 
         .project-card:nth-child(2) .project-image {
@@ -1026,6 +1151,11 @@
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="video-background">
+            <div class="bg-animation">
+                <div class="floating-shape"></div>
+                <div class="floating-shape"></div>
+                <div class="floating-shape"></div>
+            </div>
             <canvas id="particleCanvas"></canvas>
         </div>
         <div class="hero-content">
@@ -1081,80 +1211,143 @@
             <h2 class="section-title">Skills & Technologies</h2>
             <p class="section-description">A comprehensive toolkit for building scalable AI/ML systems and data infrastructure</p>
         </div>
-        <div class="skills-grid">
-            <div class="skill-category">
-                <div class="skill-icon">🤖</div>
+        
+        <!-- Backend Skills -->
+        <div class="skills-categories">
+            <div class="category-header">
+                <h3>Backend</h3>
+                <div class="category-divider"></div>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <div class="skill-icon">🐍</div>
+                    <h3>Python</h3>
+                    <p>Primary Language</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">FastAPI</span>
+                        <span class="skill-tag">Flask</span>
+                        <span class="skill-tag">Django</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <div class="skill-icon">☕</div>
+                    <h3>Java</h3>
+                    <p>Object-Oriented Programming</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Spring Boot</span>
+                        <span class="skill-tag">Maven</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <div class="skill-icon">📜</div>
+                    <h3>Scala</h3>
+                    <p>Functional Programming</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Spark</span>
+                        <span class="skill-tag">Akka</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <div class="skill-icon">🟢</div>
+                    <h3>Node.js</h3>
+                    <p>Backend Runtime</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Express</span>
+                        <span class="skill-tag">REST API</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Machine Learning & AI -->
+        <div class="skills-categories" style="margin-top: 80px;">
+            <div class="category-header">
                 <h3>Machine Learning & AI</h3>
-                <p style="color: var(--light-gray); margin-bottom: 10px;">Building and deploying production ML systems</p>
-                <div class="skill-tags">
-                    <span class="skill-tag">TensorFlow</span>
-                    <span class="skill-tag">PyTorch</span>
-                    <span class="skill-tag">LangChain</span>
-                    <span class="skill-tag">scikit-learn</span>
-                    <span class="skill-tag">XGBoost</span>
-                    <span class="skill-tag">SpaCy</span>
+                <div class="category-divider"></div>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <div class="skill-icon">🧠</div>
+                    <h3>TensorFlow</h3>
+                    <p>Deep Learning Framework</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Keras</span>
+                        <span class="skill-tag">TF-Serving</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <div class="skill-icon">🔥</div>
+                    <h3>PyTorch</h3>
+                    <p>ML Research & Production</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Transformers</span>
+                        <span class="skill-tag">CUDA</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <div class="skill-icon">🔗</div>
+                    <h3>LangChain</h3>
+                    <p>LLM Applications</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">RAG</span>
+                        <span class="skill-tag">Agents</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <div class="skill-icon">📊</div>
+                    <h3>scikit-learn</h3>
+                    <p>Classical ML</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">XGBoost</span>
+                        <span class="skill-tag">Feature Engineering</span>
+                    </div>
                 </div>
             </div>
-            <div class="skill-category">
-                <div class="skill-icon">📊</div>
-                <h3>Data Engineering</h3>
-                <p style="color: var(--light-gray); margin-bottom: 10px;">Scalable ETL pipelines and data processing</p>
-                <div class="skill-tags">
-                    <span class="skill-tag">PySpark</span>
-                    <span class="skill-tag">SQL</span>
-                    <span class="skill-tag">Databricks</span>
-                    <span class="skill-tag">Delta Lake</span>
-                    <span class="skill-tag">Apache Spark</span>
-                </div>
-            </div>
-            <div class="skill-category">
-                <div class="skill-icon">☁️</div>
+        </div>
+
+        <!-- Cloud & DevOps -->
+        <div class="skills-categories" style="margin-top: 80px;">
+            <div class="category-header">
                 <h3>Cloud & DevOps</h3>
-                <p style="color: var(--light-gray); margin-bottom: 10px;">Deploying and scaling ML infrastructure</p>
-                <div class="skill-tags">
-                    <span class="skill-tag">AWS</span>
-                    <span class="skill-tag">Azure</span>
-                    <span class="skill-tag">Docker</span>
-                    <span class="skill-tag">Kubernetes</span>
-                    <span class="skill-tag">MLflow</span>
-                    <span class="skill-tag">Git</span>
-                </div>
+                <div class="category-divider"></div>
             </div>
-            <div class="skill-category">
-                <div class="skill-icon">💻</div>
-                <h3>Programming Languages</h3>
-                <p style="color: var(--light-gray); margin-bottom: 10px;">Full-stack development capabilities</p>
-                <div class="skill-tags">
-                    <span class="skill-tag">Python</span>
-                    <span class="skill-tag">SQL</span>
-                    <span class="skill-tag">R</span>
-                    <span class="skill-tag">Scala</span>
-                    <span class="skill-tag">Java</span>
-                    <span class="skill-tag">C++</span>
-                    <span class="skill-tag">JavaScript</span>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <div class="skill-icon">☁️</div>
+                    <h3>AWS</h3>
+                    <p>Cloud Platform</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">EC2</span>
+                        <span class="skill-tag">S3</span>
+                        <span class="skill-tag">Lambda</span>
+                    </div>
                 </div>
-            </div>
-            <div class="skill-category">
-                <div class="skill-icon">📈</div>
-                <h3>Analytics & Visualization</h3>
-                <p style="color: var(--light-gray); margin-bottom: 10px;">Data-driven insights and reporting</p>
-                <div class="skill-tags">
-                    <span class="skill-tag">Tableau</span>
-                    <span class="skill-tag">Power BI</span>
-                    <span class="skill-tag">Matplotlib</span>
-                    <span class="skill-tag">Seaborn</span>
-                    <span class="skill-tag">Plotly</span>
+                <div class="skill-category">
+                    <div class="skill-icon">🌐</div>
+                    <h3>Azure</h3>
+                    <p>Cloud Services</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Databricks</span>
+                        <span class="skill-tag">Blob Storage</span>
+                    </div>
                 </div>
-            </div>
-            <div class="skill-category">
-                <div class="skill-icon">🔧</div>
-                <h3>MLOps & Tools</h3>
-                <p style="color: var(--light-gray); margin-bottom: 10px;">Production ML workflow management</p>
-                <div class="skill-tags">
-                    <span class="skill-tag">MLflow</span>
-                    <span class="skill-tag">SageMaker</span>
-                    <span class="skill-tag">GitHub Actions</span>
-                    <span class="skill-tag">Unity Catalog</span>
+                <div class="skill-category">
+                    <div class="skill-icon">🐳</div>
+                    <h3>Docker</h3>
+                    <p>Containerization</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Docker Compose</span>
+                        <span class="skill-tag">Multi-stage</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <div class="skill-icon">⎈</div>
+                    <h3>Kubernetes</h3>
+                    <p>Container Orchestration</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Helm</span>
+                        <span class="skill-tag">Services</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1169,9 +1362,7 @@
         </div>
         <div class="projects-grid">
             <div class="project-card">
-                <div class="project-image">
-                    🎙️
-                </div>
+                <div class="project-image">🎙️</div>
                 <div class="project-info">
                     <div class="project-meta">
                         <span class="project-badge">Featured</span>
@@ -1186,51 +1377,42 @@
                         <span class="tech-tag">PySpark</span>
                         <span class="tech-tag">MLflow</span>
                         <span class="tech-tag">Azure</span>
-                        <span class="tech-tag">Delta Lake</span>
                     </div>
                 </div>
             </div>
 
             <div class="project-card">
-                <div class="project-image">
-                    🏥
-                </div>
+                <div class="project-image">🏥</div>
                 <div class="project-info">
                     <div class="project-meta">
                         <span class="project-badge">Healthcare AI</span>
                         <span class="project-badge">2025</span>
                     </div>
                     <h3>Patient Follow-Up Analysis System</h3>
-                    <p>Constructed LLM-powered pipelines in Unity Catalog to extract insights from 20,000+ clinical records. Employed AI-driven pattern recognition to prioritize high-risk patients for follow-up care, improving patient outcomes through predictive analytics and automated risk scoring.</p>
+                    <p>Constructed LLM-powered pipelines in Unity Catalog to extract insights from 20,000+ clinical records. Employed AI-driven pattern recognition to prioritize high-risk patients for follow-up care.</p>
                     <div class="project-tech">
                         <span class="tech-tag">Python</span>
                         <span class="tech-tag">LLM</span>
                         <span class="tech-tag">Unity Catalog</span>
                         <span class="tech-tag">PySpark</span>
-                        <span class="tech-tag">Azure Blob</span>
-                        <span class="tech-tag">Pandas</span>
                     </div>
                 </div>
             </div>
 
             <div class="project-card">
-                <div class="project-image">
-                    📞
-                </div>
+                <div class="project-image">📞</div>
                 <div class="project-info">
                     <div class="project-meta">
                         <span class="project-badge">Audio ML</span>
                         <span class="project-badge">2025</span>
                     </div>
                     <h3>Call Center Diarization Pipeline</h3>
-                    <p>Implemented end-to-end diarization pipeline for Five9 call center audio using Whisper-based models. Designed scalable inference via Databricks Serving Endpoints with multi-threaded processing, handling 40,000+ audio files with automated error recovery and monitoring.</p>
+                    <p>Implemented end-to-end diarization pipeline for call center audio using Whisper-based models. Designed scalable inference via Databricks Serving Endpoints, handling 40,000+ audio files.</p>
                     <div class="project-tech">
                         <span class="tech-tag">Whisper</span>
                         <span class="tech-tag">MLflow</span>
                         <span class="tech-tag">Databricks</span>
-                        <span class="tech-tag">WebRTC VAD</span>
                         <span class="tech-tag">Azure</span>
-                        <span class="tech-tag">REST API</span>
                     </div>
                 </div>
             </div>
@@ -1250,11 +1432,10 @@
                 <div class="timeline-company">OhioHealth | Columbus, OH</div>
                 <div class="timeline-description">
                     <ul>
-                        <li>Designed and deployed an end-to-end AI pipeline combining Wav2Vec2 embeddings with Llama-70B LLM, enabling sentiment and topic extraction from more than 50,000 clinical audio files to accelerate insight generation</li>
-                        <li>Automated ETL workflows using Azure Databricks Jobs API, creating parameterized pipelines that ensured repeatable, scalable, and reliable processing of large clinical datasets</li>
-                        <li>Applied MLflow for systematic experiment tracking, enabling reproducibility and providing audit-ready records of models and results</li>
-                        <li>Developed PySpark UDFs to integrate ML inference within distributed processing pipelines, reducing manual review time by 75% and significantly increasing throughput for clinical stakeholders</li>
-                        <li>Partnered with clinical and IT teams to optimize model efficiency and infrastructure, achieving a 40% reduction in compute costs while maintaining quality and compliance standards</li>
+                        <li>Designed and deployed an end-to-end AI pipeline combining Wav2Vec2 embeddings with Llama-70B LLM, enabling sentiment and topic extraction from more than 50,000 clinical audio files</li>
+                        <li>Automated ETL workflows using Azure Databricks Jobs API, creating parameterized pipelines that ensured repeatable, scalable processing</li>
+                        <li>Applied MLflow for systematic experiment tracking, enabling reproducibility and audit-ready records</li>
+                        <li>Developed PySpark UDFs to integrate ML inference within distributed processing pipelines, reducing manual review time by 75%</li>
                     </ul>
                 </div>
             </div>
@@ -1265,11 +1446,10 @@
                 <div class="timeline-company">MollisSoft | El Segundo, CA</div>
                 <div class="timeline-description">
                     <ul>
-                        <li>Devised and maintained scalable ETL pipelines in Python and SQL which improved the freshness of e-commerce analytics data by 40% and enhanced the accuracy of client reporting</li>
-                        <li>Re-engineered MySQL database schemas and optimized complex queries which led to decreasing dashboard load times by 50% and improving the usability of data tools for business teams</li>
-                        <li>Implemented monitoring frameworks on AWS that reduced downtime by 30% to ensure availability and reliability for client-facing platforms</li>
-                        <li>Containerized data workflows using Docker and integrated them with CI/CD pipelines, which shortened release cycles by 35% and minimized disruptions during updates</li>
-                        <li>Introduced standardized Git and GitHub practices for version control across the engineering team, reducing deployment errors by 20% and improving overall team productivity</li>
+                        <li>Devised and maintained scalable ETL pipelines in Python and SQL which improved data freshness by 40%</li>
+                        <li>Re-engineered MySQL database schemas and optimized complex queries, decreasing dashboard load times by 50%</li>
+                        <li>Implemented monitoring frameworks on AWS that reduced downtime by 30%</li>
+                        <li>Containerized data workflows using Docker and integrated with CI/CD pipelines, shortening release cycles by 35%</li>
                     </ul>
                 </div>
             </div>
@@ -1280,9 +1460,9 @@
                 <div class="timeline-company">Wallfort Inc. | Mumbai, India</div>
                 <div class="timeline-description">
                     <ul>
-                        <li>Applied statistical models in R to estimate loan repayment probabilities under uncertainty, strengthening decision-making for credit assessments and financial risk management</li>
-                        <li>Designed AI-enhanced Tableau dashboards and automated reports to surface actionable business and operational insights for internal teams</li>
-                        <li>Built predictive models combined with A/B testing, enabling targeted marketing campaigns that improved customer retention by 15%</li>
+                        <li>Applied statistical models in R to estimate loan repayment probabilities, strengthening credit assessment decisions</li>
+                        <li>Designed AI-enhanced Tableau dashboards and automated reports for business insights</li>
+                        <li>Built predictive models combined with A/B testing, improving customer retention by 15%</li>
                     </ul>
                 </div>
             </div>
@@ -1299,9 +1479,7 @@
             <div>
                 <div class="contact-form-container">
                     <h3>Send Me a Message</h3>
-                    <p style="color: var(--light-gray); font-size: 14px; margin-bottom: 20px;">
-                        Fill out the form below
-                    </p>
+                    <p style="color: var(--light-gray); font-size: 14px; margin-bottom: 20px;">Fill out the form below</p>
                     <form id="contactForm">
                         <div class="form-group">
                             <label for="name">Your Name *</label>
@@ -1362,11 +1540,9 @@
                 <div style="background: var(--card-bg); padding: 30px; border-radius: 12px; margin-bottom: 20px;">
                     <h4 style="color: var(--primary); margin-bottom: 10px;">Bachelor of Science in Computer Science & Mathematics</h4>
                     <p style="color: var(--light-gray); margin-bottom: 5px;">UMass Amherst</p>
-                    <p style="color: var(--gray); font-size: 14px; margin-bottom: 5px;">Statistics Concentration | 2022</p>
+                    <p style="color: var(--gray); font-size: 14px;">Statistics Concentration | 2022</p>
                 </div>
-                <a href="#" class="resume-download" id="resumeDownload">
-                    📄 Download Resume
-                </a>
+                <a href="#" class="resume-download" id="resumeDownload">📄 Download Resume</a>
                 <div class="social-links">
                     <a href="https://linkedin.com/in/atpp" class="social-btn" target="_blank">💼</a>
                     <a href="https://github.com/atp1111" class="social-btn" target="_blank">💻</a>
@@ -1380,9 +1556,9 @@
         <p>&copy; 2025 Aayush Panchal. All rights reserved. Built with passion for data science and machine learning.</p>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <button class="back-to-top" id="backToTop">↑</button>
+
     <script>
-        // ===== NETFLIX SOUND ON CLICK =====
         let loadingStarted = false;
         const loadingLogo = document.getElementById('loadingLogo');
         const clickInstruction = document.getElementById('clickInstruction');
@@ -1391,29 +1567,14 @@
         loadingLogo.addEventListener('click', () => {
             if (loadingStarted) return;
             loadingStarted = true;
-
-            // Play Netflix sound
-            const netflixSound = new Audio('./netflix-sound.mp3');
-            netflixSound.volume = 0.8;
-            netflixSound.play().catch(error => {
-                console.log('Audio playback error:', error);
-            });
-
-            // Hide click instruction
             clickInstruction.style.display = 'none';
-
-            // Show loading bar and start animation
             loadingBar.classList.add('active');
             loadingLogo.style.pointerEvents = 'none';
-
-            // Hide loading screen after 2 seconds
             setTimeout(() => {
                 document.getElementById('loadingScreen').classList.add('hidden');
             }, 2000);
         });
-        // ===== END NETFLIX SOUND CODE =====
 
-        // Particle Animation Background
         const canvas = document.getElementById('particleCanvas');
         const ctx = canvas.getContext('2d');
         
@@ -1438,7 +1599,6 @@
             update() {
                 this.x += this.vx;
                 this.y += this.vy;
-
                 if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
                 if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
             }
@@ -1455,21 +1615,17 @@
             particles.push(new Particle());
         }
 
-        let animationId;
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
             particles.forEach(particle => {
                 particle.update();
                 particle.draw();
             });
-
             particles.forEach((p1, i) => {
                 particles.slice(i + 1).forEach(p2 => {
                     const dx = p1.x - p2.x;
                     const dy = p1.y - p2.y;
                     const distance = Math.sqrt(dx * dx + dy * dy);
-
                     if (distance < 120) {
                         ctx.beginPath();
                         ctx.strokeStyle = `rgba(229, 9, 20, ${0.3 * (1 - distance / 120)})`;
@@ -1480,10 +1636,8 @@
                     }
                 });
             });
-
-            animationId = requestAnimationFrame(animate);
+            requestAnimationFrame(animate);
         }
-
         animate();
 
         window.addEventListener('resize', () => {
@@ -1495,14 +1649,12 @@
             }
         });
 
-        // Contact Form Handling
         const contactForm = document.getElementById('contactForm');
         const submitBtn = document.getElementById('submitBtn');
         const formMessage = document.getElementById('formMessage');
 
         contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
             submitBtn.disabled = true;
             submitBtn.textContent = 'Sending...';
             formMessage.style.display = 'none';
@@ -1513,69 +1665,49 @@
                 const response = await fetch('https://formspree.io/f/xnnglnqy', {
                     method: 'POST',
                     body: formData,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
+                    headers: {'Accept': 'application/json'}
                 });
 
                 if (response.ok) {
-                    formMessage.textContent = '✓ Message sent successfully! I\'ll get back to you soon.';
+                    formMessage.textContent = '✓ Message sent successfully!';
                     formMessage.className = 'form-message success';
                     contactForm.reset();
                 } else {
-                    throw new Error('Failed to send');
+                    throw new Error('Failed');
                 }
             } catch (error) {
-                formMessage.textContent = '✗ Failed to send. Please email me directly at aayushpanchal1111@gmail.com';
+                formMessage.textContent = '✗ Failed to send. Email me directly.';
                 formMessage.className = 'form-message error';
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Send Message';
                 formMessage.style.display = 'block';
-                
-                setTimeout(() => {
-                    formMessage.style.display = 'none';
-                }, 8000);
+                setTimeout(() => formMessage.style.display = 'none', 8000);
             }
         });
 
-        // Resume Download
         document.getElementById('resumeDownload').addEventListener('click', (e) => {
             e.preventDefault();
-            
-            const link = document.createElement('a');
-            link.href = './Aayush_Panchal_Resume.pdf';
-            link.download = 'Aayush_Panchal_Resume.pdf';
-            link.target = '_blank';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            
-            const originalText = e.target.textContent;
-            e.target.textContent = '✓ Downloaded!';
-            e.target.style.background = 'rgba(67, 233, 123, 0.2)';
-            e.target.style.borderColor = '#43e97b';
-            e.target.style.color = '#43e97b';
-            
-            setTimeout(() => {
-                e.target.textContent = originalText;
-                e.target.style.background = '';
-                e.target.style.borderColor = '';
-                e.target.style.color = '';
-            }, 2000);
+            alert('Please place your resume PDF file in the same folder as this HTML file and name it: Aayush_Panchal_Resume.pdf');
         });
 
-        // Header scroll effect
         const header = document.getElementById('navbar');
+        const backToTop = document.getElementById('backToTop');
+
         window.addEventListener('scroll', () => {
             if (window.scrollY > 100) {
                 header.classList.add('scrolled');
+                backToTop.classList.add('show');
             } else {
                 header.classList.remove('scrolled');
+                backToTop.classList.remove('show');
             }
         });
 
-        // Mobile menu toggle
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        });
+
         const menuToggle = document.getElementById('menuToggle');
         const navLinks = document.getElementById('navLinks');
         
@@ -1589,26 +1721,17 @@
             });
         });
 
-        // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+                    target.scrollIntoView({behavior: 'smooth', block: 'start'});
                 }
             });
         });
 
-        // Add animation on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
+        const observerOptions = {threshold: 0.1, rootMargin: '0px 0px -50px 0px'};
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
